@@ -134,7 +134,7 @@ class Battlesnake(object):
         for i in xrange(0, x):
             grid.append(list(raw_input().strip()))
         '''
-        print(f"{data.board.height}") 
+        print(f"{data['board']}") 
         #next_move = next_move((pacman_x, pacman_y),(food_x, food_y), grid)
         
         print(f"MOVE: {move}")
