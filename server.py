@@ -142,7 +142,7 @@ class Battlesnake(object):
         food = data['board']['food'][0]
         food_x, food_y = food.get('x'), food.get('y')
 
-        print(f"snake {data}")
+        print(f"snake {data['you']['head']}")
         print(f"FOOD: {food_x}")
 
         #next_move = next_move((pacman_x, pacman_y),(food_x, food_y), grid)
