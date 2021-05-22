@@ -73,11 +73,12 @@ def aStar(start, goal, grid):
     raise ValueError('No Path Found')
 def next_move(pacman,food,grid):
     #Convert all the points to instances of Node
-    for x in xrange(len(grid)):
-        for y in xrange(len(grid[x])):
-            grid[x][y] = Node(grid[x][y],(x,y))
+    
+    for x in xrange(grid[0]):
+        for y in xrange(grid[1]):
+            full_grid = Node([x][y],(x,y))
     #Get the path
-    path = aStar(grid[pacman[0]][pacman[1]],grid[food[0]][food[1]],grid)
+    path = aStar(full_grid[pacman[0]][pacman[1]],full_grid[food[0]][food[1]],full_grids)
     #Output the path
     print(len(path) - 1)
     for node in path:
