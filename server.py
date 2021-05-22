@@ -145,6 +145,7 @@ class Battlesnake(object):
         pacman_x, pacman_y = data['you']['head'].get('x'), data['you']['head'].get('y')
         print(f"snake {data['you']['head']}")
         print(f"FOOD: {food_x}")
+        print(grid)
 
         the_move = next_move((pacman_x, pacman_y),(food_x, food_y), grid)
         print(the_move)
