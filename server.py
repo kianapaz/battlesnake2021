@@ -140,7 +140,7 @@ class Battlesnake(object):
         grid = [data['board']['height'], data['board']['width']]
 
         food_x = data['board']['food'][0]#, data['board']['food'][0][y]
-        print(f"FOOD: {food_x}")
+        print(f"FOOD: {food_x[0]}")
 
         #next_move = next_move((pacman_x, pacman_y),(food_x, food_y), grid)
         
