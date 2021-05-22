@@ -146,8 +146,8 @@ class Battlesnake(object):
         print(f"snake {data['you']['head']}")
         print(f"FOOD: {food_x}")
 
-        next_move = next_move((pacman_x, pacman_y),(food_x, food_y), grid)
-        print(next_move)
+        the_move = next_move((pacman_x, pacman_y),(food_x, food_y), grid)
+        print(the_move)
         print(f"MOVE: {move}")
         return {"move": move}
 
