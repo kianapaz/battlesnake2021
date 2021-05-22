@@ -76,6 +76,8 @@ def next_move(pacman,food,grid):
     
     for x in range(grid[0]-1):
         for y in range(grid[1]-1):
+            print(x, y)
+            print(Node([x][y],(x,y)))
             full_grid = Node([x][y],(x,y))
     #Get the path
     path = aStar(full_grid[pacman[0]][pacman[1]],full_grid[food[0]][food[1]],full_grids)
