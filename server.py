@@ -86,7 +86,7 @@ def find_closest(choices, coord):
     print(temp_closest)
     print(temp_min_dist)
     for c in choices:
-        print(c[)
+        print(c)
         print(coord[1])
         a = abs(c.get('x') - coord.get('x'))
         b = abs(c.get('y') - coordget('y'))
