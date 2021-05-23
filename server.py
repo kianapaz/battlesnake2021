@@ -83,7 +83,7 @@ class Battlesnake(object):
         print('WIDTH' + str(width))
         print('HEIGHT' + str(height))
 
-        data = bottle.request.json
+        #data = bottle.request.json
 
         print(data)
         print(data['snakes'])
@@ -155,6 +155,8 @@ class Battlesnake(object):
         # convert best move from coordinates into a string
         best_move = convert_coord_to_move(best_move, head)
         print('best move', best_move)
+
+        return {"move": best_move}
 
 
     def square_adjacent(head, snake_butt):
