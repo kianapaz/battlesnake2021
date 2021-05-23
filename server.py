@@ -84,6 +84,8 @@ def find_closest(choices, coord):
     temp_closest = choices[0]
     temp_min_dist = pow(width,2)
     for c in choices:
+        print(c[1])
+        print(coord[1])
         a = abs(c[1] - coord[1])
         b = abs(c[0] - coord[0])
         distance = math.sqrt( pow(a, 2) + pow(b, 2))
