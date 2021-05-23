@@ -2,9 +2,7 @@ import os
 import random
 
 import cherrypy
-from pathfinding.core.diagonal_movement import DiagonalMovement
-from pathfinding.core.grid import Grid
-from pathfinding.finder.a_star import AStarFinder
+import heapq
 
 """
 This is a simple Battlesnake server written in Python.
