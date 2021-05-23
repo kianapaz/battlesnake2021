@@ -83,9 +83,11 @@ class Battlesnake(object):
         print("POSSIBLE MOVES")
         print(possible_moves)
 
-        for parts in body:
-            possible_moves = get_moves(possible_moves, head, parts)
-        #possible_moves = get_moves(possible_moves, head, tail)
+        #for parts in body:
+        #    possible_moves = get_moves(possible_moves, head, parts)
+        
+        possible_moves = get_moves(possible_moves, head, second_body_part)
+        possible_moves = get_moves(possible_moves, head, tail)
         print('AFTER DELETING')
         print(possible_moves)
 
