@@ -86,10 +86,10 @@ def find_closest(choices, coord):
     print(temp_closest)
     print(temp_min_dist)
     for c in choices:
-        print(c[1])
+        print(c[)
         print(coord[1])
-        a = abs(c[1] - coord[1])
-        b = abs(c[0] - coord[0])
+        a = abs(c.get('x') - coord.get('x'))
+        b = abs(c.get('y') - coordget('y'))
         distance = math.sqrt( pow(a, 2) + pow(b, 2))
         if distance < temp_min_dist:
             temp_min_dist = distance
@@ -141,38 +141,6 @@ class Battlesnake(object):
 
         print("START")
         return "ok"
-
-    '''
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def find_safe_square(head, data):
-        global width, height
-        x = head[0]
-        y = head[1]
-
-        left = [x-1, y]
-        right = [x+1, y]
-        up = [x, y-1]
-        down = [x, y+1]
-
-        directions = [left, right, up, down]
-
-        safe_sq = []
-
-        for direction in directions:
-            if direction[0] < (width) and direction[0] >= 0:
-                if direction[1] < (height) and direction[1] >= 0:
-                    if square_empty(direction, data):
-                        safe_sq.append(direction)
-
-        if safe_sq == []:
-            print('No Safe Squares')
-            print(adjacent)
-        return safe_sq
-
-    '''
-
 
 
     @cherrypy.expose
@@ -281,7 +249,7 @@ class Battlesnake(object):
 
         # if hungry or snake i'm following is growing, find food.
         if hungry or snake_butts == []:
-            print('SNAKE BUTS IS ' + str(snake_butts))
+            print('SNAKE BUTS IS ' + snake_butts)
             
             closest_food = find_closest(food, head)
             print('CLOSEST FOOD')
