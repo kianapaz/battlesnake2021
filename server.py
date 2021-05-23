@@ -9,7 +9,7 @@ This is a simple Battlesnake server written in Python.
 For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python/README.md
 """
 
-def get_moves(, possible_moves, head, second_body_part):
+def get_moves(possible_moves, head, second_body_part):
     if head.get('x') < second_body_part.get('x'):
         possible_moves.remove('right')
     elif head.get('x') > second_body_part.get('x'):
