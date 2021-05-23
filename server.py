@@ -249,7 +249,7 @@ class Battlesnake(object):
 
         # if hungry or snake i'm following is growing, find food.
         if hungry or snake_butts == []:
-            print('SNAKE BUTS IS ' + snake_butts)
+            print('SNAKE BUTS IS ' + str(snake_butts))
             
             closest_food = find_closest(food, head)
             print('CLOSEST FOOD')
