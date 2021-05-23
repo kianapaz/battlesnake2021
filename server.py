@@ -86,13 +86,13 @@ class Battlesnake(object):
         #data = bottle.request.json
 
         print(data)
-        print(data['snakes'])
+        print(data['board']['snakes'])
         print('==================')
 
         snake_butts = []
 
         # get data for my snake, target snake
-        my_snake = next(x for x in data['snakes'] if x['name'] == snake_name)
+        my_snake = next(x for x in data['board']['snakes'] if x['name'] == snake_name)
 
         head = my_snake['coords'][0]
         my_data = my_snake
