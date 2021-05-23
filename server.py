@@ -41,7 +41,7 @@ class Battlesnake(object):
         print("START")
         return "ok"
 
-
+    '''
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
@@ -70,7 +70,7 @@ class Battlesnake(object):
             print(adjacent)
         return safe_sq
 
-
+    '''
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -203,7 +203,29 @@ class Battlesnake(object):
 
         print('HEAD IS')
         print(head)
-        safe_squares = find_safe_square(head, data)
+        x = head.get('x')
+        y = head.get('y')
+
+        left = [x-1, y]
+        right = [x+1, y]
+        up = [x, y-1]
+        down = [x, y+1]
+
+        directions = [left, right, up, down]
+
+        safe_sq = []
+
+        for direction in directions:
+            if direction[0] < (width) and direction[0] >= 0:
+                if direction[1] < (height) and direction[1] >= 0:
+                    if square_empty(direction, data):
+                        safe_sq.append(direction)
+
+        if safe_sq == []:
+            print('No Safe Squares')
+            print(adjacent)
+        #safe_squares = find_safe_square(head, data)
+        safe_squares = safe_sq
         print('safe_squares', safe_squares)
 
 
