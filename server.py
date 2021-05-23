@@ -160,7 +160,9 @@ class Battlesnake(object):
 
         return {"move": best_move}
 
-
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
     def square_adjacent(head, snake_butt):
         adj = False
 
@@ -177,6 +179,9 @@ class Battlesnake(object):
 
         return adj
 
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
     def find_closest(choices, coord):
         temp_closest = choices[0]
         temp_min_dist = pow(width,2)
@@ -210,6 +215,9 @@ class Battlesnake(object):
                         safe_sq = False
         return safe_sq
 
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
     def find_safe_square(head, data):
         global width, height
         x = head[0]
@@ -235,13 +243,18 @@ class Battlesnake(object):
             print(adjacent)
         return safe_sq
 
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
     def find_snake_parts(snake):
         snake_butt = snake.get('body')[-1]
         snake_head = snake.get('body')[0]
         print('FINDING SNAKE PARTS: ' + str(snake_butt) + str(snake_head))
         return snake_butt, snake_head
 
-
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
     def convert_coord_to_move(best_move, head):
         x = head[0]
         y = head[1]
@@ -262,6 +275,9 @@ class Battlesnake(object):
         else:
             print('you fucked up')
 
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
     def square_empty(square, data):
         empty = True
         for snake in data['board']['snakes']:
@@ -270,6 +286,9 @@ class Battlesnake(object):
             return empty
         return empty
 
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
     def get_next_circle_move():
         global last_circle_move
 
