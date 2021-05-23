@@ -83,6 +83,7 @@ def square_adjacent(head, snake_butt):
 def find_closest(choices, coord):
     temp_closest = choices[0]
     temp_min_dist = pow(width,2)
+    print("IN FIND CLOSEE")
     print(temp_closest)
     print(temp_min_dist)
     for c in choices:
