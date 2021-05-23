@@ -2,7 +2,9 @@ import os
 import random
 
 import cherrypy
-
+from pathfinding.core.diagonal_movement import DiagonalMovement
+from pathfinding.core.grid import Grid
+from pathfinding.finder.a_star import AStarFinder
 
 """
 This is a simple Battlesnake server written in Python.
@@ -97,6 +99,11 @@ class Battlesnake(object):
         print(gameboard)
         print(possible_moves)
         print(the_move)
+
+        start = grid.node(0, 0)
+        end = grid.node(gameboard['x'], gameboard['y'])
+        print(start)
+        print(end)
 
 
         return {"move": the_move}
