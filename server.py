@@ -223,7 +223,7 @@ class Battlesnake(object):
 
         if safe_sq == []:
             print('No Safe Squares')
-            print(adjacent)
+            
         #safe_squares = find_safe_square(head, data)
         safe_squares = safe_sq
         print('safe_squares', safe_squares)
