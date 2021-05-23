@@ -9,7 +9,17 @@ This is a simple Battlesnake server written in Python.
 For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python/README.md
 """
 
+def get_moves(, possible_moves, head, second_body_part):
+    if head.get('x') < second_body_part.get('x'):
+        possible_moves.remove('right')
+    elif head.get('x') > second_body_part.get('x'):
+        possible_moves.remove('left')
+    elif head.get('y') < second_body_part.get('y'):
+        possible_moves.remove('up')
+    elif head.get('y') > second_body_part.get('y'):
+        possible_moves.remove('down')
 
+    return possible_moves
 
 class Battlesnake(object):
     @cherrypy.expose
@@ -64,14 +74,10 @@ class Battlesnake(object):
         gameboard = data['board'].get('height'), data['board'].get('width')
 
         second_body_part = my_snake.get('body')[1]
-        if head.get('x') < second_body_part.get('x'):
-            possible_moves.remove('right')
-        elif head.get('x') > second_body_part.get('x'):
-            possible_moves.remove('left')
-        elif head.get('y') < second_body_part.get('y'):
-            possible_moves.remove('up')
-        elif head.get('y') > second_body_part.get('y'):
-            possible_moves.remove('down')
+        
+
+        possible_moves = get_moves(possible_moves, head, second_body_part)
+        possible_moves = get_moves(possible_moves, head, tail)
         
         # removing falling off the board
         if head.get('x') == 0:
