@@ -16,7 +16,7 @@ def get_moves(possible_moves, head, second_body_part):
     elif head['x']+1 == second_body_part['x']:
         if 'left' in possible_moves:
             possible_moves.remove('left')
-    elif head['y'] == second_body_part['y']+1:
+    if head['y'] == second_body_part['y']+1:
         if 'up' in possible_moves:
             possible_moves.remove('up')
     elif head['y']+1 == second_body_part['y']:
