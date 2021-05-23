@@ -65,6 +65,10 @@ class Battlesnake(object):
         health = my_snake.get('health')
         length = my_snake.get('length')
         food = data['board']['food']
+
+        gameboard = data['board'].get('height'), data['board'].get('width')
+
+        print(gameboard)
         
 
         return {"move": "right"}
