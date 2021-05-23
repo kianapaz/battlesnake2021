@@ -256,7 +256,7 @@ class Battlesnake(object):
         elif best_move == down:
             return 'down'
         else:
-            print 'you fucked up'
+            print('you fucked up')
 
     def square_empty(square, data):
         empty = True
