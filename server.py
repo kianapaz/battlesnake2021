@@ -91,6 +91,7 @@ class Battlesnake(object):
 
         the_move = random.choice(possible_moves)
         print(gameboard)
+        print(possible_moves)
         print(the_move)
 
 
