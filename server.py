@@ -61,7 +61,7 @@ class Battlesnake(object):
         data = cherrypy.request.json
 
         # Choose a random direction to move in
-        possible_moves = ["up", "down", "left", "right"]
+        
         
         print(data)
         print(data['board']['snakes'])
@@ -79,11 +79,14 @@ class Battlesnake(object):
         gameboard = data['board']['height'], data['board']['width']
 
         second_body_part = my_snake['body'][1]
-        
+        possible_moves = ["up", "down", "left", "right"]
+        print("POSSIBLE MOVES")
+        print(possible_moves)
+
         for parts in body:
             possible_moves = get_moves(possible_moves, head, parts)
         #possible_moves = get_moves(possible_moves, head, tail)
-        print("POSSIBLE MOVES")
+        print('AFTER DELETING')
         print(possible_moves)
 
         # removing falling off the board
