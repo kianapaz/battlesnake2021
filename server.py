@@ -81,12 +81,16 @@ class Battlesnake(object):
         
         # removing falling off the board
         if head.get('x') == 0:
+            print("deleted left")
             possible_moves.remove('left')
         elif head.get('x') == 10:
+            print("deleted right")
             possible_moves.remove('right')
         elif head.get('y') == 0:
+            print("deleted down")
             possible_moves.remove('down')
         elif head['y'] == 10:
+            print("deleted up")
             possible_moves.remove('up')
 
         the_move = random.choice(possible_moves)
