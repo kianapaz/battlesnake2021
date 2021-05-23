@@ -15,63 +15,6 @@ This is a simple Battlesnake server written in Python.
 For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python/README.md
 """
 
-
-class Battlesnake(object):
-    @cherrypy.expose
-    @cherrypy.tools.json_out()
-    def index(self):
-        # This function is called when you register your Battlesnake on play.battlesnake.com
-        # It controls your Battlesnake appearance and author permissions.
-        # TIP: If you open your Battlesnake URL in browser you should see this data
-        return {
-            "apiversion": "1",
-            "author": "kianapaz021",  # TODO: Your Battlesnake Username
-            "color": "#556B2F",  # TODO: Personalize
-            "head": "dead",  # TODO: Personalize
-            "tail": "sharp",  # TODO: Personalize
-        }
-
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    def start(self):
-        # This function is called everytime your snake is entered into a game.
-        # cherrypy.request.json contains information about the game that's about to be played.
-        data = cherrypy.request.json
-
-        print("START")
-        return "ok"
-
-    '''
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def find_safe_square(head, data):
-        global width, height
-        x = head[0]
-        y = head[1]
-
-        left = [x-1, y]
-        right = [x+1, y]
-        up = [x, y-1]
-        down = [x, y+1]
-
-        directions = [left, right, up, down]
-
-        safe_sq = []
-
-        for direction in directions:
-            if direction[0] < (width) and direction[0] >= 0:
-                if direction[1] < (height) and direction[1] >= 0:
-                    if square_empty(direction, data):
-                        safe_sq.append(direction)
-
-        if safe_sq == []:
-            print('No Safe Squares')
-            print(adjacent)
-        return safe_sq
-
-    '''
-
     @cherrypy.expose
     def convert_coord_to_move(best_move, head):
         x = head[0]
@@ -171,6 +114,64 @@ class Battlesnake(object):
                         print('SQUARE NOT EMPTY!!')
                         safe_sq = False
         return safe_sq
+        
+class Battlesnake(object):
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def index(self):
+        # This function is called when you register your Battlesnake on play.battlesnake.com
+        # It controls your Battlesnake appearance and author permissions.
+        # TIP: If you open your Battlesnake URL in browser you should see this data
+        return {
+            "apiversion": "1",
+            "author": "kianapaz021",  # TODO: Your Battlesnake Username
+            "color": "#556B2F",  # TODO: Personalize
+            "head": "dead",  # TODO: Personalize
+            "tail": "sharp",  # TODO: Personalize
+        }
+
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    def start(self):
+        # This function is called everytime your snake is entered into a game.
+        # cherrypy.request.json contains information about the game that's about to be played.
+        data = cherrypy.request.json
+
+        print("START")
+        return "ok"
+
+    '''
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
+    def find_safe_square(head, data):
+        global width, height
+        x = head[0]
+        y = head[1]
+
+        left = [x-1, y]
+        right = [x+1, y]
+        up = [x, y-1]
+        down = [x, y+1]
+
+        directions = [left, right, up, down]
+
+        safe_sq = []
+
+        for direction in directions:
+            if direction[0] < (width) and direction[0] >= 0:
+                if direction[1] < (height) and direction[1] >= 0:
+                    if square_empty(direction, data):
+                        safe_sq.append(direction)
+
+        if safe_sq == []:
+            print('No Safe Squares')
+            print(adjacent)
+        return safe_sq
+
+    '''
+
+
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
