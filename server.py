@@ -100,9 +100,9 @@ class Battlesnake(object):
         my_data = my_snake
         my_length = my_snake.get('length')  
         # hungry = len(my_snake['coords']) == 3 or (my_snake['health_points'] < 60)
-        hungry = (my_snake.get('health_points') < 60)
+        hungry = my_length == 3 or (my_snake.get('health') < 60)
         print('HUNGRY IS ' + str(hungry))
-        print('HEALTHPOINTS ' + str(my_snake.get('health_points')) )
+        print('HEALTHPOINTS ' + str(my_snake.get('health')) )
 
         final_countdown = False
 
