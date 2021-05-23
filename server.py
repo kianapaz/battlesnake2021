@@ -80,8 +80,8 @@ class Battlesnake(object):
         print(f"MOVE: {move}")
         #return {"move": move}
 
-        print('WIDTH' + str(width))
-        print('HEIGHT' + str(height))
+        print('WIDTH: ' + str(width))
+        print('HEIGHT: ' + str(height))
 
         #data = bottle.request.json
 
