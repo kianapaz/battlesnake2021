@@ -72,7 +72,7 @@ class Battlesnake(object):
 
     '''
 
-
+    @cherrypy.expose
     def convert_coord_to_move(best_move, head):
         x = head[0]
         y = head[1]
@@ -118,6 +118,59 @@ class Battlesnake(object):
         else:
             last_circle_move = 'down'
             return 'down'
+
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
+    def square_adjacent(head, snake_butt):
+        adj = False
+
+        x = head[0]
+        y = head[1]
+
+        left = [x-1, y]
+        right = [x+1, y]
+        up = [x, y-1]
+        down = [x, y+1]
+
+        if snake_butt == left or snake_butt == right or snake_butt == up or snake_butt == down:
+            adj = True
+
+        return adj
+
+    
+    def find_closest(choices, coord):
+        temp_closest = choices[0]
+        temp_min_dist = pow(width,2)
+        for c in choices:
+            a = abs(c[1] - coord[1])
+            b = abs(c[0] - coord[0])
+            distance = math.sqrt( pow(a, 2) + pow(b, 2))
+            if distance < temp_min_dist:
+                temp_min_dist = distance
+                temp_closest = c
+        return temp_closest
+
+    def adjacent_square_safe(point, data):
+        x = point[0]
+        y = point[1]
+
+        left = [x-1, y]
+        right = [x+1, y]
+        up = [x, y-1]
+        down = [x, y+1]
+
+        directions = [left, right, up, down]
+
+        safe_sq = True
+
+        for direction in directions:
+            if direction[0] < (width) and direction[0] >=0:
+                if direction[1] < (height) and direction[1] >= 0:
+                    if not square_empty(direction, data):
+                        print('SQUARE NOT EMPTY!!')
+                        safe_sq = False
+        return safe_sq
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -251,60 +304,7 @@ class Battlesnake(object):
 
         return {"move": best_move}
 
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def square_adjacent(head, snake_butt):
-        adj = False
-
-        x = head[0]
-        y = head[1]
-
-        left = [x-1, y]
-        right = [x+1, y]
-        up = [x, y-1]
-        down = [x, y+1]
-
-        if snake_butt == left or snake_butt == right or snake_butt == up or snake_butt == down:
-            adj = True
-
-        return adj
-
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def find_closest(choices, coord):
-        temp_closest = choices[0]
-        temp_min_dist = pow(width,2)
-        for c in choices:
-            a = abs(c[1] - coord[1])
-            b = abs(c[0] - coord[0])
-            distance = math.sqrt( pow(a, 2) + pow(b, 2))
-            if distance < temp_min_dist:
-                temp_min_dist = distance
-                temp_closest = c
-        return temp_closest
-
-    def adjacent_square_safe(point, data):
-        x = point[0]
-        y = point[1]
-
-        left = [x-1, y]
-        right = [x+1, y]
-        up = [x, y-1]
-        down = [x, y+1]
-
-        directions = [left, right, up, down]
-
-        safe_sq = True
-
-        for direction in directions:
-            if direction[0] < (width) and direction[0] >=0:
-                if direction[1] < (height) and direction[1] >= 0:
-                    if not square_empty(direction, data):
-                        print('SQUARE NOT EMPTY!!')
-                        safe_sq = False
-        return safe_sq
+    
 
     
 
