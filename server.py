@@ -42,6 +42,126 @@ class Battlesnake(object):
         return "ok"
 
 
+    
+
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
+    def move(self):
+        # This function is called on every turn of a game. It's how your snake decides where to move.
+        # Valid moves are "up", "down", "left", or "right".
+        # TODO: Use the information in cherrypy.request.json to decide your next move.
+        data = cherrypy.request.json
+
+        # Choose a random direction to move in
+        possible_moves = ["up", "down", "left", "right"]
+        move = random.choice(possible_moves)
+        '''
+        pacman_x, pacman_y = [ int(i) for i in raw_input().strip().split() ]
+        food_x, food_y = [ int(i) for i in raw_input().strip().split() ]
+        x,y = [ int(i) for i in raw_input().strip().split() ]
+        
+        grid = []
+        for i in xrange(0, x):
+            grid.append(list(raw_input().strip()))
+        '''
+        print(f"food {data['board']['food']}") 
+        print(f"mroe food: {data['board']['food']}") 
+        print("HELLLLOOOO")
+        grid = [data['board']['height'], data['board']['width']]
+
+        food = data['board']['food'][0]
+        food_x, food_y = food.get('x'), food.get('y')
+
+        pacman_x, pacman_y = data['you']['head'].get('x'), data['you']['head'].get('y')
+        print(f"snake {data['you']['head']}")
+        print(f"FOOD: {food_x}")
+        print(grid)
+
+        
+        print(f"MOVE: {move}")
+        #return {"move": move}
+
+        print('WIDTH: ' + str(width))
+        print('HEIGHT: ' + str(height))
+
+        #data = bottle.request.json
+
+        print(data)
+        print(data['board']['snakes'])
+        print('==================')
+
+        snake_butts = []
+
+        # get data for my snake, target snake
+        #my_snake = next(x for x in data['board']['snakes'] if x.get('name') == snake_name)
+        
+        my_snake = data['you']
+
+        head = my_snake.get('head') #'coords'][0]
+        my_data = my_snake
+        my_length = my_snake.get('length')  
+        # hungry = len(my_snake['coords']) == 3 or (my_snake['health_points'] < 60)
+        hungry = my_length == 3 or (my_snake.get('health') < 60)
+        print('HUNGRY IS ' + str(hungry))
+        print('HEALTHPOINTS ' + str(my_snake.get('health')) )
+
+        final_countdown = False
+
+        # find the snake_butts
+        # if there are more than two snakes 
+        if len(data['board']['snakes']) > 2 or len(my_snake.get('body')) > 15:
+            # follow a snake
+            for snake in data['board']['snakes']:
+            # if snake isn't me
+                if snake.get('name') != snake_name:
+                    snake_butt, snake_head = snake.get('body')[-1], snake.get('body')[0]
+                    # don't append if snake is adjacent and growing
+                    if square_adjacent(snake_butt, head) and snake_butt == snake.get('body')[len(snake.get('body'))-2]:
+                        print('WATCH OUT IT\'S GROWING!!!')
+                    else:
+                        print('we\'ve got a new butt')
+                        snake_butts.append(snake_butt)
+                else:
+                    final_countdown = True
+
+
+        food = data['board']['food']
+
+        print('HEAD IS')
+        print(head)
+        safe_squares = find_safe_square(head, data)
+        print('safe_squares', safe_squares)
+
+
+        # if hungry or snake i'm following is growing, find food.
+        if hungry or snake_butts == []:
+            print('SNAKE BUTS IS ' + str(snake_butts))
+            
+            closest_food = find_closest(food, head)
+            print('CLOSEST FOOD')
+            print( closest_food)
+            
+            best_move = find_closest(safe_squares, closest_food)
+        # otherwise follow a snake
+        else:
+            closest_butt = find_closest(snake_butts, head)
+            print('snake_butts', snake_butts)
+            print('closest', closest_butt)
+
+            if square_adjacent(head, snake_butt) and snake_butt in snake_butts:
+                safe_squares.append(snake_butt)
+
+            best_move = find_closest(safe_squares, snake_butt)
+
+        print('best_move', best_move
+)
+        # convert best move from coordinates into a string
+        best_move = convert_coord_to_move(best_move, head)
+        print('best move', best_move)
+
+        return {"move": best_move}
+
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
@@ -179,126 +299,6 @@ class Battlesnake(object):
         else:
             last_circle_move = 'down'
             return 'down'
-
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def move(self):
-        # This function is called on every turn of a game. It's how your snake decides where to move.
-        # Valid moves are "up", "down", "left", or "right".
-        # TODO: Use the information in cherrypy.request.json to decide your next move.
-        data = cherrypy.request.json
-
-        # Choose a random direction to move in
-        possible_moves = ["up", "down", "left", "right"]
-        move = random.choice(possible_moves)
-        '''
-        pacman_x, pacman_y = [ int(i) for i in raw_input().strip().split() ]
-        food_x, food_y = [ int(i) for i in raw_input().strip().split() ]
-        x,y = [ int(i) for i in raw_input().strip().split() ]
-        
-        grid = []
-        for i in xrange(0, x):
-            grid.append(list(raw_input().strip()))
-        '''
-        print(f"food {data['board']['food']}") 
-        print(f"mroe food: {data['board']['food']}") 
-        print("HELLLLOOOO")
-        grid = [data['board']['height'], data['board']['width']]
-
-        food = data['board']['food'][0]
-        food_x, food_y = food.get('x'), food.get('y')
-
-        pacman_x, pacman_y = data['you']['head'].get('x'), data['you']['head'].get('y')
-        print(f"snake {data['you']['head']}")
-        print(f"FOOD: {food_x}")
-        print(grid)
-
-        
-        print(f"MOVE: {move}")
-        #return {"move": move}
-
-        print('WIDTH: ' + str(width))
-        print('HEIGHT: ' + str(height))
-
-        #data = bottle.request.json
-
-        print(data)
-        print(data['board']['snakes'])
-        print('==================')
-
-        snake_butts = []
-
-        # get data for my snake, target snake
-        #my_snake = next(x for x in data['board']['snakes'] if x.get('name') == snake_name)
-        
-        my_snake = data['you']
-
-        head = my_snake.get('head') #'coords'][0]
-        my_data = my_snake
-        my_length = my_snake.get('length')  
-        # hungry = len(my_snake['coords']) == 3 or (my_snake['health_points'] < 60)
-        hungry = my_length == 3 or (my_snake.get('health') < 60)
-        print('HUNGRY IS ' + str(hungry))
-        print('HEALTHPOINTS ' + str(my_snake.get('health')) )
-
-        final_countdown = False
-
-        # find the snake_butts
-        # if there are more than two snakes 
-        if len(data['board']['snakes']) > 2 or len(my_snake.get('body')) > 15:
-            # follow a snake
-            for snake in data['board']['snakes']:
-            # if snake isn't me
-                if snake.get('name') != snake_name:
-                    snake_butt, snake_head = snake.get('body')[-1], snake.get('body')[0]
-                    # don't append if snake is adjacent and growing
-                    if square_adjacent(snake_butt, head) and snake_butt == snake.get('body')[len(snake.get('body'))-2]:
-                        print('WATCH OUT IT\'S GROWING!!!')
-                    else:
-                        print('we\'ve got a new butt')
-                        snake_butts.append(snake_butt)
-                else:
-                    final_countdown = True
-
-
-        food = data['board']['food']
-
-        print('HEAD IS')
-        print(head)
-        safe_squares = find_safe_square(head, data)
-        print('safe_squares', safe_squares)
-
-
-        # if hungry or snake i'm following is growing, find food.
-        if hungry or snake_butts == []:
-            print('SNAKE BUTS IS ' + str(snake_butts))
-            
-            closest_food = find_closest(food, head)
-            print('CLOSEST FOOD')
-            print( closest_food)
-            
-            best_move = find_closest(safe_squares, closest_food)
-        # otherwise follow a snake
-        else:
-            closest_butt = find_closest(snake_butts, head)
-            print('snake_butts', snake_butts)
-            print('closest', closest_butt)
-
-            if square_adjacent(head, snake_butt) and snake_butt in snake_butts:
-                safe_squares.append(snake_butt)
-
-            best_move = find_closest(safe_squares, snake_butt)
-
-        print('best_move', best_move
-)
-        # convert best move from coordinates into a string
-        best_move = convert_coord_to_move(best_move, head)
-        print('best move', best_move)
-
-        return {"move": best_move}
-
-    
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
