@@ -10,13 +10,13 @@ For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python
 """
 
 def get_moves(possible_moves, head, second_body_part):
-    if head.get('x') < second_body_part.get('x'):
+    if head['x'] < second_body_part['x']:
         possible_moves.remove('right')
-    elif head.get('x') > second_body_part.get('x'):
+    elif head['x'] > second_body_part['x']:
         possible_moves.remove('left')
-    elif head.get('y') < second_body_part.get('y'):
+    elif head['y'] < second_body_part['y']:
         possible_moves.remove('up')
-    elif head.get('y') > second_body_part.get('y'):
+    elif head['y'] > second_body_part['y']:
         possible_moves.remove('down')
 
     return possible_moves
@@ -65,28 +65,28 @@ class Battlesnake(object):
 
         
         my_snake = data['you']
-        head = my_snake.get('head') 
-        tail = my_snake.get('body')[-1]
-        health = my_snake.get('health')
-        length = my_snake.get('length')
+        head = my_snake['head'] 
+        tail = my_snake['body'][-1]
+        health = my_snake['health']
+        length = my_snake['length']
         food = data['board']['food']
 
-        gameboard = data['board'].get('height'), data['board'].get('width')
+        gameboard = data['board']['height'], data['board']['width']
 
-        second_body_part = my_snake.get('body')[1]
+        second_body_part = my_snake['body'][1]
         
 
         possible_moves = get_moves(possible_moves, head, second_body_part)
         #possible_moves = get_moves(possible_moves, head, tail)
         
         # removing falling off the board
-        if head.get('x') == 0:
+        if head['x'] == 0:
             print("deleted left")
             possible_moves.remove('left')
-        elif head.get('x') == 10:
+        elif head['x'] == 10:
             print("deleted right")
             possible_moves.remove('right')
-        elif head.get('y') == 0:
+        elif head['y'] == 0:
             print("deleted down")
             possible_moves.remove('down')
         elif head['y'] == 10:
