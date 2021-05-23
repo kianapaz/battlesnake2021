@@ -77,7 +77,7 @@ class Battlesnake(object):
         
 
         possible_moves = get_moves(possible_moves, head, second_body_part)
-        possible_moves = get_moves(possible_moves, head, tail)
+        #possible_moves = get_moves(possible_moves, head, tail)
         
         # removing falling off the board
         if head.get('x') == 0:
