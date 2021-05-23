@@ -224,7 +224,7 @@ class Battlesnake(object):
             if direction[0] < (width) and direction[0] >= 0:
                 if direction[1] < (height) and direction[1] >= 0:
                     if square_empty(direction, data):
-                    safe_sq.append(direction)
+                        safe_sq.append(direction)
 
         if safe_sq == []:
             print('No Safe Squares')
