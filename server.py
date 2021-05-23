@@ -49,11 +49,6 @@ class Battlesnake(object):
         # Choose a random direction to move in
         possible_moves = ["up", "down", "left", "right"]
         
-        
-        
-        print(f"MOVE: {move}")
-        
-
         print(data)
         print(data['board']['snakes'])
         print('==================')
@@ -77,12 +72,12 @@ class Battlesnake(object):
         elif head.get('y') == 10:
             possible_moves.remove('up')
 
-        move = random.choice(possible_moves)
+        the_move = random.choice(possible_moves)
         print(gameboard)
-        print(move)
+        print(the_move)
 
 
-        return {"move": move}
+        return {"move": the_move}
 
     
 
