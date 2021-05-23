@@ -63,6 +63,17 @@ class Battlesnake(object):
 
         gameboard = data['board'].get('height'), data['board'].get('width')
 
+        second_body_part = my_snake.get('body')[1]
+        if head.get('x') < second_body_part.get('x'):
+            possible_moves.remove('right')
+        elif head.get('x') > second_body_part.get('x'):
+            possible_moves.remove('left')
+        elif head.get('y') < second_body_part.get('y'):
+            possible_moves.remove('up')
+        elif head.get('y') > second_body_part.get('y'):
+            possible_moves.remove('down')
+        
+        # removing falling off the board
         if head.get('x') == 0:
             possible_moves.remove('left')
         elif head.get('x') == 10:
