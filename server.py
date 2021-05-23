@@ -3,12 +3,6 @@ import random
 
 import cherrypy
 
-width = 0
-height = 0
-snake_name = 'nake'
-taunt_count = 0
-last_circle_move = 'down'
-head = []
 
 """
 This is a simple Battlesnake server written in Python.
@@ -16,107 +10,6 @@ For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python
 """
 
 
-def convert_coord_to_move(best_move, head):
-    x = head[0]
-    y = head[1]
-
-    left = [x-1, y]
-    right = [x+1, y]
-    up = [x, y-1]
-    down = [x, y+1]
-
-    if best_move == left:
-        return 'left'
-    elif best_move == right:
-        return 'right'
-    elif best_move == up:
-        return 'up'
-    elif best_move == down:
-        return 'down'
-    else:
-        print('you fucked up')
-
-
-def square_empty(square, data):
-    empty = True
-    for snake in data['board']['snakes']:
-        if square in snake.get('body'):
-            empty = False
-        return empty
-    return empty
-
-
-def get_next_circle_move():
-    global last_circle_move
-
-    if last_circle_move == 'down':
-        last_circle_move = 'left'
-        return 'left'
-    elif last_circle_move == 'left':
-        last_circle_move = 'up'
-        return 'up'
-    elif last_circle_move == 'up':
-        last_circle_move = 'right'
-        return 'right'
-    else:
-        last_circle_move = 'down'
-        return 'down'
-
-
-def square_adjacent(head, snake_butt):
-    adj = False
-
-    x = head[0]
-    y = head[1]
-
-    left = [x-1, y]
-    right = [x+1, y]
-    up = [x, y-1]
-    down = [x, y+1]
-
-    if snake_butt == left or snake_butt == right or snake_butt == up or snake_butt == down:
-        adj = True
-
-    return adj
-
-
-def find_closest(choices, coord):
-    temp_closest = choices[0]
-    temp_min_dist = pow(width,2)
-    print("IN FIND CLOSEE")
-    print(temp_closest)
-    print(temp_min_dist)
-    for c in choices:
-        print(c)
-        print(coord[1])
-        a = abs(c.get('x') - coord.get('x'))
-        b = abs(c.get('y') - coordget('y'))
-        distance = math.sqrt( pow(a, 2) + pow(b, 2))
-        if distance < temp_min_dist:
-            temp_min_dist = distance
-            temp_closest = c
-    return temp_closest
-
-def adjacent_square_safe(point, data):
-    x = point[0]
-    y = point[1]
-
-    left = [x-1, y]
-    right = [x+1, y]
-    up = [x, y-1]
-    down = [x, y+1]
-
-    directions = [left, right, up, down]
-
-    safe_sq = True
-
-    for direction in directions:
-        if direction[0] < (width) and direction[0] >=0:
-            if direction[1] < (height) and direction[1] >= 0:
-                if not square_empty(direction, data):
-                    print('SQUARE NOT EMPTY!!')
-                    safe_sq = False
-    return safe_sq
 
 class Battlesnake(object):
     @cherrypy.expose
@@ -157,124 +50,24 @@ class Battlesnake(object):
         possible_moves = ["up", "down", "left", "right"]
         move = random.choice(possible_moves)
         
-        print(f"food {data['board']['food']}") 
-        print(f"mroe food: {data['board']['food']}") 
-        print("HELLLLOOOO")
-        grid = [data['board']['height'], data['board']['width']]
-
-        food = data['board']['food'][0]
-        food_x, food_y = food.get('x'), food.get('y')
-
-        pacman_x, pacman_y = data['you']['head'].get('x'), data['you']['head'].get('y')
-        print(f"snake {data['you']['head']}")
-        print(f"FOOD: {food_x}")
-        print(grid)
-
         
         print(f"MOVE: {move}")
-        #return {"move": move}
-
-        print('WIDTH: ' + str(width))
-        print('HEIGHT: ' + str(height))
-
-        #data = bottle.request.json
+        
 
         print(data)
         print(data['board']['snakes'])
         print('==================')
 
-        snake_butts = []
-
-        # get data for my snake, target snake
-        #my_snake = next(x for x in data['board']['snakes'] if x.get('name') == snake_name)
         
         my_snake = data['you']
-
-        head = my_snake.get('head') #'coords'][0]
-        my_data = my_snake
-        my_length = my_snake.get('length')  
-        # hungry = len(my_snake['coords']) == 3 or (my_snake['health_points'] < 60)
-        hungry = my_length == 3 or (my_snake.get('health') < 60)
-        print('HUNGRY IS ' + str(hungry))
-        print('HEALTHPOINTS ' + str(my_snake.get('health')) )
-
-        final_countdown = False
-
-        # find the snake_butts
-        # if there are more than two snakes 
-        if len(data['board']['snakes']) > 2 or len(my_snake.get('body')) > 15:
-            # follow a snake
-            for snake in data['board']['snakes']:
-            # if snake isn't me
-                if snake.get('name') != snake_name:
-                    snake_butt, snake_head = snake.get('body')[-1], snake.get('body')[0]
-                    # don't append if snake is adjacent and growing
-                    if square_adjacent(snake_butt, head) and snake_butt == snake.get('body')[len(snake.get('body'))-2]:
-                        print('WATCH OUT IT\'S GROWING!!!')
-                    else:
-                        print('we\'ve got a new butt')
-                        snake_butts.append(snake_butt)
-                else:
-                    final_countdown = True
-
-
+        head = my_snake.get('head') 
+        tail = my_snake.get('body')[-1]
+        health = my_snake.get('health')
+        length = my_snake.get('length')
         food = data['board']['food']
+        
 
-        print('HEAD IS')
-        print(head)
-        x = head.get('x')
-        y = head.get('y')
-
-        left = [x-1, y]
-        right = [x+1, y]
-        up = [x, y-1]
-        down = [x, y+1]
-
-        directions = [left, right, up, down]
-
-        safe_sq = []
-
-        for direction in directions:
-            if direction[0] < (width) and direction[0] >= 0:
-                if direction[1] < (height) and direction[1] >= 0:
-                    if square_empty(direction, data):
-                        safe_sq.append(direction)
-
-        if safe_sq == []:
-            print('No Safe Squares')
-            
-        #safe_squares = find_safe_square(head, data)
-        safe_squares = safe_sq
-        print('safe_squares', safe_squares)
-
-
-        # if hungry or snake i'm following is growing, find food.
-        if hungry or snake_butts == []:
-            print('SNAKE BUTS IS ' + str(snake_butts))
-            
-            closest_food = find_closest(food, head)
-            print('CLOSEST FOOD')
-            print( closest_food)
-            
-            best_move = find_closest(safe_squares, closest_food)
-        # otherwise follow a snake
-        else:
-            closest_butt = find_closest(snake_butts, head)
-            print('snake_butts', snake_butts)
-            print('closest', closest_butt)
-
-            if square_adjacent(head, snake_butt) and snake_butt in snake_butts:
-                safe_squares.append(snake_butt)
-
-            best_move = find_closest(safe_squares, snake_butt)
-
-        print('best_move', best_move
-)
-        # convert best move from coordinates into a string
-        best_move = convert_coord_to_move(best_move, head)
-        print('best move', best_move)
-
-        return {"move": best_move}
+        return {"move": "right"}
 
     
 
