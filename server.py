@@ -10,10 +10,10 @@ For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python
 """
 
 def get_moves(possible_moves, head, second_body_part):
-    if head['x'] < second_body_part['x']:
+    if head['x'] > second_body_part['x']:
         if 'right' in possible_moves:
             possible_moves.remove('right')
-    elif head['x'] > second_body_part['x']:
+    elif head['x'] < second_body_part['x']:
         if 'left' in possible_moves:
             possible_moves.remove('left')
     elif head['y'] < second_body_part['y']:
@@ -92,16 +92,20 @@ class Battlesnake(object):
         # removing falling off the board
         if head['x'] == 0:
             print("deleted left")
-            possible_moves.remove('left')
+            if 'left' in possible_moves:
+                possible_moves.remove('left')
         elif head['x'] == 10:
             print("deleted right")
-            possible_moves.remove('right')
+            if 'right' in possible_moves:
+                possible_moves.remove('right')
         elif head['y'] == 0:
             print("deleted down")
-            possible_moves.remove('down')
+            if 'down' in possible_moves:
+                possible_moves.remove('down')
         elif head['y'] == 10:
             print("deleted up")
-            possible_moves.remove('up')
+            if 'up' in possible_moves:
+                possible_moves.remove('up')
 
         the_move = random.choice(possible_moves)
         print(gameboard)
