@@ -42,7 +42,88 @@ class Battlesnake(object):
         return "ok"
 
 
-    
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
+    def find_safe_square(head, data):
+        global width, height
+        x = head[0]
+        y = head[1]
+
+        left = [x-1, y]
+        right = [x+1, y]
+        up = [x, y-1]
+        down = [x, y+1]
+
+        directions = [left, right, up, down]
+
+        safe_sq = []
+
+        for direction in directions:
+            if direction[0] < (width) and direction[0] >= 0:
+                if direction[1] < (height) and direction[1] >= 0:
+                    if square_empty(direction, data):
+                        safe_sq.append(direction)
+
+        if safe_sq == []:
+            print('No Safe Squares')
+            print(adjacent)
+        return safe_sq
+
+
+
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
+    def convert_coord_to_move(best_move, head):
+        x = head[0]
+        y = head[1]
+
+        left = [x-1, y]
+        right = [x+1, y]
+        up = [x, y-1]
+        down = [x, y+1]
+
+        if best_move == left:
+            return 'left'
+        elif best_move == right:
+            return 'right'
+        elif best_move == up:
+            return 'up'
+        elif best_move == down:
+            return 'down'
+        else:
+            print('you fucked up')
+
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
+    def square_empty(square, data):
+        empty = True
+        for snake in data['board']['snakes']:
+            if square in snake.get('body'):
+                empty = False
+            return empty
+        return empty
+
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.json_out()
+    def get_next_circle_move():
+        global last_circle_move
+
+        if last_circle_move == 'down':
+            last_circle_move = 'left'
+            return 'left'
+        elif last_circle_move == 'left':
+            last_circle_move = 'up'
+            return 'up'
+        elif last_circle_move == 'up':
+            last_circle_move = 'right'
+            return 'right'
+        else:
+            last_circle_move = 'down'
+            return 'down'
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -56,15 +137,7 @@ class Battlesnake(object):
         # Choose a random direction to move in
         possible_moves = ["up", "down", "left", "right"]
         move = random.choice(possible_moves)
-        '''
-        pacman_x, pacman_y = [ int(i) for i in raw_input().strip().split() ]
-        food_x, food_y = [ int(i) for i in raw_input().strip().split() ]
-        x,y = [ int(i) for i in raw_input().strip().split() ]
         
-        grid = []
-        for i in xrange(0, x):
-            grid.append(list(raw_input().strip()))
-        '''
         print(f"food {data['board']['food']}") 
         print(f"mroe food: {data['board']['food']}") 
         print("HELLLLOOOO")
@@ -217,88 +290,7 @@ class Battlesnake(object):
                         safe_sq = False
         return safe_sq
 
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def find_safe_square(head, data):
-        global width, height
-        x = head[0]
-        y = head[1]
-
-        left = [x-1, y]
-        right = [x+1, y]
-        up = [x, y-1]
-        down = [x, y+1]
-
-        directions = [left, right, up, down]
-
-        safe_sq = []
-
-        for direction in directions:
-            if direction[0] < (width) and direction[0] >= 0:
-                if direction[1] < (height) and direction[1] >= 0:
-                    if square_empty(direction, data):
-                        safe_sq.append(direction)
-
-        if safe_sq == []:
-            print('No Safe Squares')
-            print(adjacent)
-        return safe_sq
-
-
-
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def convert_coord_to_move(best_move, head):
-        x = head[0]
-        y = head[1]
-
-        left = [x-1, y]
-        right = [x+1, y]
-        up = [x, y-1]
-        down = [x, y+1]
-
-        if best_move == left:
-            return 'left'
-        elif best_move == right:
-            return 'right'
-        elif best_move == up:
-            return 'up'
-        elif best_move == down:
-            return 'down'
-        else:
-            print('you fucked up')
-
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def square_empty(square, data):
-        empty = True
-        for snake in data['board']['snakes']:
-            if square in snake.get('body'):
-                empty = False
-            return empty
-        return empty
-
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def get_next_circle_move():
-        global last_circle_move
-
-        if last_circle_move == 'down':
-            last_circle_move = 'left'
-            return 'left'
-        elif last_circle_move == 'left':
-            last_circle_move = 'up'
-            return 'up'
-        elif last_circle_move == 'up':
-            last_circle_move = 'right'
-            return 'right'
-        else:
-            last_circle_move = 'down'
-            return 'down'
+    
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
