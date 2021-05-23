@@ -92,28 +92,30 @@ class Battlesnake(object):
         snake_butts = []
 
         # get data for my snake, target snake
-        my_snake = next(x for x in data['board']['snakes'] if x.get('name') == snake_name)
+        #my_snake = next(x for x in data['board']['snakes'] if x.get('name') == snake_name)
+        
+        my_snake = data['you']
 
-        head = my_snake['coords'][0]
+        head = my_snake.get('head') #'coords'][0]
         my_data = my_snake
-        my_length = len(my_snake['coords'])  
+        my_length = my_snake.get('length')  
         # hungry = len(my_snake['coords']) == 3 or (my_snake['health_points'] < 60)
-        hungry = (my_snake['health_points'] < 60)
+        hungry = (my_snake.get('health_points') < 60)
         print('HUNGRY IS ' + str(hungry))
-        print('HEALTHPOINTS ' + str(my_snake['health_points']) )
+        print('HEALTHPOINTS ' + str(my_snake.get('health_points')) )
 
         final_countdown = False
 
         # find the snake_butts
         # if there are more than two snakes 
-        if len(data['snakes']) > 2 or len(my_snake['coords']) > 15:
+        if len(data['board']['snakes']) > 2 or len(my_snake.get('body')) > 15:
             # follow a snake
-            for snake in data['snakes']:
+            for snake in data['board']['snakes']:
             # if snake isn't me
-                if snake['name'] != snake_name:
+                if snake.get('name') != snake_name:
                     snake_butt, snake_head = find_snake_parts(snake)
                     # don't append if snake is adjacent and growing
-                    if square_adjacent(snake_butt, head) and snake_butt == snake['coords'][len(snake['coords'])-2]:
+                    if square_adjacent(snake_butt, head) and snake_butt == snake.get('body')[len(snake.get('body'))-2]:
                         print('WATCH OUT IT\'S GROWING!!!')
                     else:
                         print('we\'ve got a new butt')
@@ -122,7 +124,7 @@ class Battlesnake(object):
                     final_countdown = True
 
 
-        food = data['food']
+        food = data['board']['food']
 
         print('HEAD IS')
         print(head)
@@ -234,8 +236,8 @@ class Battlesnake(object):
         return safe_sq
 
     def find_snake_parts(snake):
-        snake_butt = snake['coords'][-1]
-        snake_head = snake['coords'][0]
+        snake_butt = snake.get('body')[-1]
+        snake_head = snake.get('body')[0]
         print('FINDING SNAKE PARTS: ' + str(snake_butt) + str(snake_head))
         return snake_butt, snake_head
 
@@ -262,8 +264,8 @@ class Battlesnake(object):
 
     def square_empty(square, data):
         empty = True
-        for snake in data['snakes']:
-            if square in snake['coords']:
+        for snake in data['board']['snakes']:
+            if square in snake.get('body'):
                 empty = False
             return empty
         return empty
