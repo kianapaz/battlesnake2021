@@ -73,8 +73,6 @@ class Battlesnake(object):
     '''
 
     @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
     def convert_coord_to_move(best_move, head):
         x = head[0]
         y = head[1]
@@ -96,8 +94,6 @@ class Battlesnake(object):
             print('you fucked up')
 
     @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
     def square_empty(square, data):
         empty = True
         for snake in data['board']['snakes']:
@@ -107,8 +103,6 @@ class Battlesnake(object):
         return empty
 
     @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
     def get_next_circle_move():
         global last_circle_move
 
