@@ -10,10 +10,10 @@ For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python
 """
 
 def get_moves(possible_moves, head, second_body_part):
-    if head['x'] > second_body_part['x']:
+    if head['x'] < second_body_part['x']:
         if 'right' in possible_moves:
             possible_moves.remove('right')
-    elif head['x'] < second_body_part['x']:
+    elif head['x'] > second_body_part['x']:
         if 'left' in possible_moves:
             possible_moves.remove('left')
     elif head['y'] < second_body_part['y']:
