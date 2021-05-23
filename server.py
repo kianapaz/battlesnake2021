@@ -72,7 +72,7 @@ class Battlesnake(object):
 
     '''
 
-    @cherrypy.expose
+
     def convert_coord_to_move(best_move, head):
         x = head[0]
         y = head[1]
@@ -93,7 +93,7 @@ class Battlesnake(object):
         else:
             print('you fucked up')
 
-    @cherrypy.expose
+
     def square_empty(square, data):
         empty = True
         for snake in data['board']['snakes']:
@@ -102,7 +102,7 @@ class Battlesnake(object):
             return empty
         return empty
 
-    @cherrypy.expose
+    
     def get_next_circle_move():
         global last_circle_move
 
