@@ -98,7 +98,7 @@ class Battlesnake(object):
             print("deleted right")
             if 'right' in possible_moves:
                 possible_moves.remove('right')
-        elif head['y'] == 0:
+        if head['y'] == 0:
             print("deleted down")
             if 'down' in possible_moves:
                 possible_moves.remove('down')
