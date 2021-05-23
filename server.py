@@ -86,7 +86,7 @@ class Battlesnake(object):
             possible_moves.remove('right')
         elif head.get('y') == 0:
             possible_moves.remove('down')
-        elif head.y == 10:
+        elif head['y'] == 10:
             possible_moves.remove('up')
 
         the_move = random.choice(possible_moves)
