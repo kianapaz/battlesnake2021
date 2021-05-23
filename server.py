@@ -98,12 +98,7 @@ class Battlesnake(object):
         print(possible_moves)
         print(the_move)
 
-        start = grid.node(0, 0)
-        end = grid.node(gameboard['x'], gameboard['y'])
-        print(start)
-        print(end)
-
-
+    
         return {"move": the_move}
 
     
