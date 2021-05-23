@@ -11,13 +11,17 @@ For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python
 
 def get_moves(possible_moves, head, second_body_part):
     if head['x'] < second_body_part['x']:
-        possible_moves.remove('right')
+        if 'right' in possible_moves:
+            possible_moves.remove('right')
     elif head['x'] > second_body_part['x']:
-        possible_moves.remove('left')
+        if 'left' in possible_moves:
+            possible_moves.remove('left')
     elif head['y'] < second_body_part['y']:
-        possible_moves.remove('up')
+        if 'up' in possible_moves:
+            possible_moves.remove('up')
     elif head['y'] > second_body_part['y']:
-        possible_moves.remove('down')
+        if 'down' in possible_moves:
+            possible_moves.remove('down')
 
     return possible_moves
 
@@ -70,14 +74,16 @@ class Battlesnake(object):
         health = my_snake['health']
         length = my_snake['length']
         food = data['board']['food']
+        body = my_snake['body']
 
         gameboard = data['board']['height'], data['board']['width']
 
         second_body_part = my_snake['body'][1]
         
-
-        possible_moves = get_moves(possible_moves, head, second_body_part)
+        for parts in body:
+            possible_moves = get_moves(possible_moves, head, parts)
         #possible_moves = get_moves(possible_moves, head, tail)
+        print(possible_moves)
         
         # removing falling off the board
         if head['x'] == 0:
