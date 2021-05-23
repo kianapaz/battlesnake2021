@@ -86,10 +86,7 @@ class Battlesnake(object):
         #for parts in body:
         #    possible_moves = get_moves(possible_moves, head, parts)
         
-        possible_moves = get_moves(possible_moves, head, second_body_part)
-        possible_moves = get_moves(possible_moves, head, tail)
-        print('AFTER DELETING')
-        print(possible_moves)
+        
 
         # removing falling off the board
         if head['x'] == 0:
@@ -108,6 +105,21 @@ class Battlesnake(object):
             print("deleted up")
             if 'up' in possible_moves:
                 possible_moves.remove('up')
+
+        if second_body_part['x'] == head['x']+1 or second_body_part['x'] == head['x']-1:
+            possible_moves = get_moves(possible_moves, head, second_body_part)
+        if second_body_part['y'] == head['y']+1 or second_body_part['y'] == head['y']-1:
+            possible_moves = get_moves(possible_moves, head, second_body_part)
+
+        if tail['x'] == head['x']+1 or tail['x'] == head['x']-1:
+            possible_moves = get_moves(possible_moves, head, tail)
+        if tail['y'] == head['y']+1 or tail['y'] == head['y']-1:
+            possible_moves = get_moves(possible_moves, head, tail)
+
+        possible_moves = get_moves(possible_moves, head, tail)
+        print('AFTER DELETING')
+        print(possible_moves)
+        
 
         the_move = random.choice(possible_moves)
         print(gameboard)
