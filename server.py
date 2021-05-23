@@ -125,14 +125,7 @@ class Battlesnake(object):
             print(adjacent)
         return safe_sq
 
-    @cherrypy.expose
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.json_out()
-    def find_snake_parts(snake):
-        snake_butt = snake.get('body')[-1]
-        snake_head = snake.get('body')[0]
-        print('FINDING SNAKE PARTS: ' + str(snake_butt) + str(snake_head))
-        return snake_butt, snake_head
+
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -186,7 +179,7 @@ class Battlesnake(object):
         else:
             last_circle_move = 'down'
             return 'down'
-            
+
     @cherrypy.expose
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
@@ -258,7 +251,7 @@ class Battlesnake(object):
             for snake in data['board']['snakes']:
             # if snake isn't me
                 if snake.get('name') != snake_name:
-                    snake_butt, snake_head = find_snake_parts(snake)
+                    snake_butt, snake_head = snake.get('body')[-1], snake.get('body')[0]
                     # don't append if snake is adjacent and growing
                     if square_adjacent(snake_butt, head) and snake_butt == snake.get('body')[len(snake.get('body'))-2]:
                         print('WATCH OUT IT\'S GROWING!!!')
