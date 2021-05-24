@@ -108,13 +108,13 @@ class Battlesnake(object):
 
         #possible_moves = get_moves(possible_moves, head, second_body_part)
         #possible_moves = get_moves(possible_moves, head, tail)
-        
-        if second_body_part['x'] == head['x']+1 or second_body_part['x'] == head['x']-1:
-            print("hello")
-            possible_moves = get_moves(possible_moves, head, second_body_part)
-        if second_body_part['y'] == head['y']+1 or second_body_part['y'] == head['y']-1:
-            print("hello")
-            possible_moves = get_moves(possible_moves, head, second_body_part)
+        for parts in body:
+            if parts['x'] == head['x']+1 or parts['x'] == head['x']-1:
+                print("hello")
+                possible_moves = get_moves(possible_moves, head, parts)
+            if parts['y'] == head['y']+1 or parts['y'] == head['y']-1:
+                print("hello")
+                possible_moves = get_moves(possible_moves, head, parts)
         
         if tail['x'] == head['x']+1 or tail['x'] == head['x']-1:
             print("ahhh")
