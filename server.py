@@ -105,6 +105,7 @@ class Battlesnake(object):
             
             if parts['y'] == head['y']+1 or parts['y'] == head['y']-1:
                 print("yikkk")
+                print(parts)
                 possible_moves = get_moves(possible_moves, head, parts)
         
         if tail['x'] == head['x']+1 or tail['x'] == head['x']-1 and tail['y'] == head['y']+1 or tail['y'] == head['y']-1:
