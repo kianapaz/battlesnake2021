@@ -63,7 +63,6 @@ class Battlesnake(object):
         print(data['board']['snakes'])
         print('==================')
 
-        
         my_snake = data['you']
         head = my_snake['head'] 
         tail = my_snake['body'][-1]
@@ -76,28 +75,21 @@ class Battlesnake(object):
 
         second_body_part = my_snake['body'][1]
         possible_moves = ["up", "down", "left", "right"]
-        print("POSSIBLE MOVES")
-        print(possible_moves)
 
         # removing falling off the board
         if head['x'] == 0:
-            print("deleted left")
-            if 'left' in possible_moves:
-                possible_moves.remove('left')
+            possible_moves.remove('left')
         elif head['x'] == 10:
-            print("deleted right")
-            if 'right' in possible_moves:
-                possible_moves.remove('right')
+            possible_moves.remove('right')
         if head['y'] == 0:
-            print("deleted down")
-            if 'down' in possible_moves:
-                possible_moves.remove('down')
+            possible_moves.remove('down')
         elif head['y'] == 10:
-            print("deleted up")
-            if 'up' in possible_moves:
-                possible_moves.remove('up')
+            possible_moves.remove('up')
 
-        for parts in body: 
+        print("POSSIBLE MOVES after board info")
+        print(possible_moves)
+
+        '''for parts in body: 
             if parts['x'] == head['x']+1 or parts['x'] == head['x']-1:
                 print("hello")
                 print(parts)
@@ -111,86 +103,18 @@ class Battlesnake(object):
         if tail['x'] == head['x']+1 or tail['x'] == head['x']-1 and tail['y'] == head['y']+1 or tail['y'] == head['y']-1:
             print("ahhh")
             possible_moves = get_moves(possible_moves, head, tail)
-        #if tail['y'] == head['y']+1 or tail['y'] == head['y']-1:
-        #    print("ohhh")
-        #    possible_moves = get_moves(possible_moves, head, tail)
-        
-
-        #possible_moves = get_moves(possible_moves, head, tail)
+        '''
+        possible_moves = get_moves(possible_moves, head, second_body_part)
+    
         print('AFTER DELETING')
         print(possible_moves)
         
 
         the_move = random.choice(possible_moves)
-        print(gameboard)
         print(possible_moves)
         print(the_move)
         return {"move": the_move}
-        '''
-        height = data["board"]["height"]
-        width = data["board"]["width"]
-
-        badCoords = []
-
-        for x in range(width):
-            bad = (x, -1)
-            badCoords.append(bad)
-            bad = (x, height)
-            badCoords.append(bad)
-
-        for y in range(width):
-            bad = (-1, y)
-            badCoords.append(bad)
-            bad = (width, y)
-            badCoords.append(bad)
-
-        for snake in data["board"]["snakes"]:
-            for xycoord in snake["body"]:
-                bad = (xycoord["x"], xycoord["y"])
-                badCoords.append(bad)
-                
-        # get coordinates of our snake head
-        myHead = data["you"]["body"][0]
-
-        possibleMoves = []
-
-        # left
-        coord = (myHead["x"]-1, myHead["y"])
-        if coord not in badCoords:
-            possibleMoves.append("left")
-        
-        # right
-        coord = (myHead["x"]+1, myHead["y"])
-        if coord not in badCoords:
-            possibleMoves.append("right")
-
-        # up
-        coord = (myHead["x"], myHead["y"]-1)
-        if coord not in badCoords:
-            possibleMoves.append("up")
-
-        # down
-        coord = (myHead["x"], myHead["y"]+1)
-        if coord not in badCoords:
-            possibleMoves.append("down")
-
-        # final decision
-        if len(possibleMoves) > 0:
-            finalMove = random.choice(possibleMoves)
-        else:
-            # doesn't really matter
-            finalMove = random.choice(["left", "right", "up", "down"])
-
-        print("badCoords={}".format(badCoords))
-        print("possibleMoves={}".format(possibleMoves))
-        print("finalMove={}".format(finalMove))
-        return {"move": finalMove}
-        '''
-        
-
-    
-
-    
+       
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
