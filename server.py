@@ -117,7 +117,7 @@ class Battlesnake(object):
             print("ohhh")
             possible_moves = get_moves(possible_moves, head, tail)
 
-        possible_moves = get_moves(possible_moves, head, tail)
+        #possible_moves = get_moves(possible_moves, head, tail)
         print('AFTER DELETING')
         print(possible_moves)
         
