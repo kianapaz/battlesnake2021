@@ -97,11 +97,12 @@ class Battlesnake(object):
             if 'up' in possible_moves:
                 possible_moves.remove('up')
 
-        for parts in second_body_part:
-            if parts['x'] == head['x']+1 or parts['x'] == head['x']-1: 
+        for parts in body: 
+            if parts['x'] == head['x']+1 or parts['x'] == head['x']-1:
                 print("hello")
                 print(parts)
                 possible_moves = get_moves(possible_moves, head, parts)
+            
             if parts['y'] == head['y']+1 or parts['y'] == head['y']-1:
                 print("yikkk")
                 possible_moves = get_moves(possible_moves, head, parts)
