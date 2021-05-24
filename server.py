@@ -1,6 +1,6 @@
 import os
 import random
-
+import json
 import cherrypy
 import heapq
 
@@ -62,7 +62,7 @@ class Battlesnake(object):
 
         # Choose a random direction to move in
         
-        
+        '''
         print(data)
         print(data['board']['snakes'])
         print('==================')
@@ -113,6 +113,7 @@ class Battlesnake(object):
                 print("hello")
                 print(parts)
                 possible_moves = get_moves(possible_moves, head, parts)
+            if parts['x'] == head
             #if parts['y'] == head['y']+1 or parts['y'] == head['y']-1:
             #    print("yikkk")
             #    possible_moves = get_moves(possible_moves, head, parts)
@@ -134,9 +135,67 @@ class Battlesnake(object):
         print(gameboard)
         print(possible_moves)
         print(the_move)
+        '''
+        height = data["board"]["height"]
+        width = data["board"]["width"]
 
+        badCoords = []
+
+        for x in range(width):
+            bad = (x, -1)
+            badCoords.append(bad)
+            bad = (x, height)
+            badCoords.append(bad)
+
+        for y in range(width):
+            bad = (-1, y)
+            badCoords.append(bad)
+            bad = (width, y)
+            badCoords.append(bad)
+
+        for snake in data["board"]["snakes"]:
+            for xycoord in snake["body"]:
+                bad = (xycoord["x"], xycoord["y"])
+                badCoords.append(bad)
+                
+        # get coordinates of our snake head
+        myHead = data["you"]["body"][0]
+
+        possibleMoves = []
+
+        # left
+        coord = (myHead["x"]-1, myHead["y"])
+        if coord not in badCoords:
+            possibleMoves.append("left")
+        
+        # right
+        coord = (myHead["x"]+1, myHead["y"])
+        if coord not in badCoords:
+            possibleMoves.append("right")
+
+        # up
+        coord = (myHead["x"], myHead["y"]-1)
+        if coord not in badCoords:
+            possibleMoves.append("up")
+
+        # down
+        coord = (myHead["x"], myHead["y"]+1)
+        if coord not in badCoords:
+            possibleMoves.append("down")
+
+        # final decision
+        if len(possibleMoves) > 0:
+            finalMove = random.choice(possibleMoves)
+        else:
+            # doesn't really matter
+            finalMove = random.choice(["left", "right", "up", "down"])
+
+        print("badCoords={}".format(badCoords))
+        print("possibleMoves={}".format(possibleMoves))
+        print("finalMove={}".format(finalMove))
+        return finalMove
     
-        return {"move": the_move}
+        #return {"move": the_move}
 
     
 
