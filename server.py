@@ -105,7 +105,7 @@ class Battlesnake(object):
             print("deleted up")
             if 'up' in possible_moves:
                 possible_moves.remove('up')
-
+        '''
         if second_body_part['x'] == head['x']+1 or second_body_part['x'] == head['x']-1:
             print("hello")
             possible_moves = get_moves(possible_moves, head, second_body_part)
@@ -118,6 +118,7 @@ class Battlesnake(object):
         if tail['y'] == head['y']+1 or tail['y'] == head['y']-1:
             print("ohhh")
             possible_moves = get_moves(possible_moves, head, tail)
+        '''
 
         #possible_moves = get_moves(possible_moves, head, tail)
         print('AFTER DELETING')
