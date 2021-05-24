@@ -193,7 +193,7 @@ class Battlesnake(object):
         print("badCoords={}".format(badCoords))
         print("possibleMoves={}".format(possibleMoves))
         print("finalMove={}".format(finalMove))
-        return finalMove
+        return {"move": finalMove}
     
         #return {"move": the_move}
 
