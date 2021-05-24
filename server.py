@@ -55,14 +55,10 @@ class Battlesnake(object):
     @cherrypy.tools.json_in()
     @cherrypy.tools.json_out()
     def move(self):
-        # This function is called on every turn of a game. It's how your snake decides where to move.
-        # Valid moves are "up", "down", "left", or "right".
-        # TODO: Use the information in cherrypy.request.json to decide your next move.
+    
         data = cherrypy.request.json
 
         # Choose a random direction to move in
-        
-        '''
         print(data)
         print(data['board']['snakes'])
         print('==================')
@@ -82,11 +78,6 @@ class Battlesnake(object):
         possible_moves = ["up", "down", "left", "right"]
         print("POSSIBLE MOVES")
         print(possible_moves)
-
-        #for parts in body:
-        #    possible_moves = get_moves(possible_moves, head, parts)
-        
-        
 
         # removing falling off the board
         if head['x'] == 0:
@@ -135,6 +126,7 @@ class Battlesnake(object):
         print(gameboard)
         print(possible_moves)
         print(the_move)
+        return {"move": the_move}
         '''
         height = data["board"]["height"]
         width = data["board"]["width"]
@@ -194,8 +186,8 @@ class Battlesnake(object):
         print("possibleMoves={}".format(possibleMoves))
         print("finalMove={}".format(finalMove))
         return {"move": finalMove}
-    
-        #return {"move": the_move}
+        '''
+        
 
     
 
