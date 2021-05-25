@@ -4,6 +4,7 @@ import copy
 import math
 import os
 
+'''
 SNEK_BUFFER = 3
 ID = 'de508402-17c8-4ac7-ab0b-f96cb53fbee8'
 SNAKE = 1
@@ -49,7 +50,7 @@ def closest(items, start):
     return closest_item
 
 def init(data):
-    grid = [[0 for col in range(data['height'])] for row in range(data['width'])]
+    grid = [[0 for col in range(data['board']['height'])] for row in range(data['board']['width'])]
     for snek in data['snakes']:
         if snek['id']== ID:
             mysnake = snek
@@ -108,12 +109,12 @@ def move():
             continue
         if (len(enemy['coords']) > len(snek['coords'])-1):
             #dodge
-            if enemy['coords'][0][1] < data['height']-1:
+            if enemy['coords'][0][1] < data['board']['height']-1:
                 grid[enemy['coords'][0][0]][enemy['coords'][0][1]+1] = SAFTEY
             if enemy['coords'][0][1] > 0:
                 grid[enemy['coords'][0][0]][enemy['coords'][0][1]-1] = SAFTEY
 
-            if enemy['coords'][0][0] < data['width']-1:
+            if enemy['coords'][0][0] < data['board']['width']-1:
                 grid[enemy['coords'][0][0]+1][enemy['coords'][0][1]] = SAFTEY
             if enemy['coords'][0][0] > 0:
                 grid[enemy['coords'][0][0]-1][enemy['coords'][0][1]] = SAFTEY
@@ -122,8 +123,8 @@ def move():
     snek_head = snek['coords'][0]
     snek_coords = snek['coords']
     path = None
-    middle = [data['width'] / 2, data['height'] / 2]
-    foods = sorted(data['food'], key = lambda p: distance(p,middle))
+    middle = [data['board']['width'] / 2, data['board']['height'] / 2]
+    foods = sorted(data['board']['food'], key = lambda p: distance(p,middle))
     if data['mode'] == 'advanced':
         foods = data['gold'] + foods
     for food in foods:
@@ -221,8 +222,8 @@ def end():
 application = bottle.default_app()
 if __name__ == '__main__':
     bottle.run(application, host=os.getenv('IP', '0.0.0.0'), port=os.getenv('PORT', '8080'))
-
-'''import os
+'''
+import os
 import random
 import json
 import cherrypy
@@ -349,4 +350,3 @@ if __name__ == "__main__":
     )
     print("Starting Battlesnake Server...")
     cherrypy.quickstart(server)
-'''
