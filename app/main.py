@@ -10,7 +10,6 @@ ID = 'gs_thdfHpJPSb34vQbRjqBSq8tb'
 SNAKE = 1
 WALL = 2
 FOOD = 3
-GOLD = 4
 SAFTEY = 5
 
 
@@ -19,13 +18,13 @@ def direction(from_cell, to_cell):
     dy = to_cell[1] - from_cell[1]
 
     if dx == 1:
-        return 'east'
+        return 'right'
     elif dx == -1:
-        return 'west'
+        return 'left'
     elif dy == -1:
-        return 'north'
+        return 'up'
     elif dy == 1:
-        return 'south'
+        return 'down'
 
 def distance(p, q):
     dx = abs(p[0] - q[0])
@@ -45,19 +44,7 @@ def closest(items, start):
 
     return closest_item
 
-def init(data):
-    grid = [[0 for col in range(data['board']['height'])] for row in range(data['board']['width'])]
-    for snek in data['board']['snakes']:
-        if snek['id']== ID:
-            mysnake = snek
-        for coord in snek['body']:
-            grid[coord[0]][coord[1]] = SNAKE
 
-
-    for f in data['board']['food']:
-        grid[f[0]][f[1]] = FOOD
-
-    return mysnake, grid
 
 @bottle.route('/static/<path:path>')
 def static(path):
@@ -88,7 +75,8 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
-    snek, grid = init(data)
+    snek = data['you']
+    grid =  data['board']['width'], data['board']['height']
 
     #foreach snake
     for enemy in data['snakes']:
@@ -114,8 +102,7 @@ def move():
     path = None
     middle = [data['board']['width'] / 2, data['board']['height'] / 2]
     foods = sorted(data['board']['food'], key = lambda p: distance(p,middle))
-    if data['mode'] == 'advanced':
-        foods = data['gold'] + foods
+    
     for food in foods:
         #print food
         tentative_path = a_star(snek_head, food, grid, snek_body)
