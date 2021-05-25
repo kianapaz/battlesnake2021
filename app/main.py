@@ -4,19 +4,15 @@ import copy
 import math
 import os
 
-'''
+
 SNEK_BUFFER = 3
-ID = 'de508402-17c8-4ac7-ab0b-f96cb53fbee8'
+ID = 'gs_thdfHpJPSb34vQbRjqBSq8tb'
 SNAKE = 1
 WALL = 2
 FOOD = 3
 GOLD = 4
 SAFTEY = 5
-def goals(data):
-    result = data['food']
-    if data['mode'] == 'advanced':
-        result.extend(data['gold'])
-    return result
+
 
 def direction(from_cell, to_cell):
     dx = to_cell[0] - from_cell[0]
@@ -51,19 +47,14 @@ def closest(items, start):
 
 def init(data):
     grid = [[0 for col in range(data['board']['height'])] for row in range(data['board']['width'])]
-    for snek in data['snakes']:
+    for snek in data['board']['snakes']:
         if snek['id']== ID:
             mysnake = snek
-        for coord in snek['coords']:
+        for coord in snek['body']:
             grid[coord[0]][coord[1]] = SNAKE
 
-    if data['mode'] == 'advanced':
-        for wall in data['walls']:
-            grid[wall[0]][wall[1]] = WALL
-        for g in data['gold']:
-            grid[g[0]][g[1]] = GOLD
 
-    for f in data['food']:
+    for f in data['board']['food']:
         grid[f[0]][f[1]] = FOOD
 
     return mysnake, grid
@@ -75,15 +66,13 @@ def static(path):
 
 @bottle.get('/')
 def index():
-    head_url = '%s://%s/static/Traitor.gif' % (
-        bottle.request.urlparts.scheme,
-        bottle.request.urlparts.netloc
-    )
-
     return {
-        'color': '#00ff00',
-        'head': head_url
-    }
+            "apiversion": "1",
+            "author": "kianapaz021",  # TODO: Your Battlesnake Username
+            "color": "#556B2F",  # TODO: Personalize
+            "head": "dead",  # TODO: Personalize
+            "tail": "sharp",  # TODO: Personalize
+        }
 
 
 @bottle.post('/start')
@@ -105,23 +94,23 @@ def move():
     for enemy in data['snakes']:
         if (enemy['id'] == ID):
             continue
-        if distance(snek['coords'][0], enemy['coords'][0]) > SNEK_BUFFER:
+        if distance(snek['body'][0], enemy['body'][0]) > SNEK_BUFFER:
             continue
-        if (len(enemy['coords']) > len(snek['coords'])-1):
+        if (len(enemy['body']) > len(snek['body'])-1):
             #dodge
-            if enemy['coords'][0][1] < data['board']['height']-1:
-                grid[enemy['coords'][0][0]][enemy['coords'][0][1]+1] = SAFTEY
-            if enemy['coords'][0][1] > 0:
-                grid[enemy['coords'][0][0]][enemy['coords'][0][1]-1] = SAFTEY
+            if enemy['body'][0][1] < data['board']['height']-1:
+                grid[enemy['body'][0][0]][enemy['body'][0][1]+1] = SAFTEY
+            if enemy['body'][0][1] > 0:
+                grid[enemy['body'][0][0]][enemy['body'][0][1]-1] = SAFTEY
 
-            if enemy['coords'][0][0] < data['board']['width']-1:
-                grid[enemy['coords'][0][0]+1][enemy['coords'][0][1]] = SAFTEY
-            if enemy['coords'][0][0] > 0:
-                grid[enemy['coords'][0][0]-1][enemy['coords'][0][1]] = SAFTEY
+            if enemy['body'][0][0] < data['board']['width']-1:
+                grid[enemy['body'][0][0]+1][enemy['body'][0][1]] = SAFTEY
+            if enemy['body'][0][0] > 0:
+                grid[enemy['body'][0][0]-1][enemy['body'][0][1]] = SAFTEY
 
 
-    snek_head = snek['coords'][0]
-    snek_coords = snek['coords']
+    snek_head = snek['body'][0]
+    snek_body = snek['body']
     path = None
     middle = [data['board']['width'] / 2, data['board']['height'] / 2]
     foods = sorted(data['board']['food'], key = lambda p: distance(p,middle))
@@ -129,19 +118,19 @@ def move():
         foods = data['gold'] + foods
     for food in foods:
         #print food
-        tentative_path = a_star(snek_head, food, grid, snek_coords)
+        tentative_path = a_star(snek_head, food, grid, snek_body)
         if not tentative_path:
             #print "no path to food"
             continue
 
         path_length = len(tentative_path)
-        snek_length = len(snek_coords) + 1
+        snek_length = len(snek_body) + 1
 
         dead = False
         for enemy in data['snakes']:
             if enemy['id'] == ID:
                 continue
-            if path_length > distance(enemy['coords'][0], food):
+            if path_length > distance(enemy['body'][0], food):
                 dead = True
         if dead:
             continue
@@ -149,27 +138,27 @@ def move():
         # Update snek
         if path_length < snek_length:
             remainder = snek_length - path_length
-            new_snek_coords = list(reversed(tentative_path)) + snek_coords[:remainder]
+            new_snek_body = list(reversed(tentative_path)) + snek_body[:remainder]
         else:
-            new_snek_coords = list(reversed(tentative_path))[:snek_length]
+            new_snek_body = list(reversed(tentative_path))[:snek_length]
 
-        if grid[new_snek_coords[0][0]][new_snek_coords[0][1]] == FOOD:
+        if grid[new_snek_body[0][0]][new_snek_body[0][1]] == FOOD:
             # we ate food so we grow
-            new_snek_coords.append(new_snek_coords[-1])
+            new_snek_body.append(new_snek_body[-1])
 
         # Create a new grid with the updates snek positions
         new_grid = copy.deepcopy(grid)
 
-        for coord in snek_coords:
+        for coord in snek_body:
             new_grid[coord[0]][coord[1]] = 0
-        for coord in new_snek_coords:
+        for coord in new_snek_body:
             new_grid[coord[0]][coord[1]] = SNAKE
 
         #printg(grid, 'orig')
         #printg(new_grid, 'new')
 
-        #print snek['coords'][-1]
-        foodtotail = a_star(food,new_snek_coords[-1],new_grid, new_snek_coords)
+        #print snek['body'][-1]
+        foodtotail = a_star(food,new_snek_body[-1],new_grid, new_snek_body)
         if foodtotail:
             path = tentative_path
             break
@@ -178,13 +167,13 @@ def move():
 
 
     if not path:
-        path = a_star(snek_head, snek['coords'][-1], grid, snek_coords)
+        path = a_star(snek_head, snek['body'][-1], grid, snek_body)
 
     despair = not (path and len(path) > 1)
 
     if despair:
-        for neighbour in neighbours(snek_head,grid,0,snek_coords, [1,2,5]):
-            path = a_star(snek_head, neighbour, grid, snek_coords)
+        for neighbour in neighbours(snek_head,grid,0,snek_body, [1,2,5]):
+            path = a_star(snek_head, neighbour, grid, snek_body)
             #print 'i\'m scared'
             break
 
@@ -192,8 +181,8 @@ def move():
 
 
     if despair:
-        for neighbour in neighbours(snek_head,grid,0,snek_coords, [1,2]):
-            path = a_star(snek_head, neighbour, grid, snek_coords)
+        for neighbour in neighbours(snek_head,grid,0,snek_body, [1,2]):
+            path = a_star(snek_head, neighbour, grid, snek_body)
             #print 'lik so scared'
             break
 
@@ -350,3 +339,4 @@ if __name__ == "__main__":
     )
     print("Starting Battlesnake Server...")
     cherrypy.quickstart(server)
+'''
