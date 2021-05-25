@@ -88,7 +88,7 @@ def move():
             #dodge
             if enemy['body'][0]['y'] < data['board']['height']-1:
                 grid[enemy['body'][0]['x']][enemy['body'][0]['y']+1] = SAFTEY
-            if enemy['body'][0][1] > 0:
+            if enemy['body'][0]['y'] > 0:
                 grid[enemy['body'][0]['x']][enemy['body'][0]['y']-1] = SAFTEY
 
             if enemy['body'][0]['x'] < data['board']['width']-1:
