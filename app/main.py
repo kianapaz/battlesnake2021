@@ -86,15 +86,15 @@ def move():
             continue
         if (len(enemy['body']) > len(snek['body'])-1):
             #dodge
-            if enemy['body'][0][1] < data['board']['height']-1:
-                grid[enemy['body'][0][0]][enemy['body'][0][1]+1] = SAFTEY
+            if enemy['body'][0]['y'] < data['board']['height']-1:
+                grid[enemy['body'][0]['x']][enemy['body'][0]['y']+1] = SAFTEY
             if enemy['body'][0][1] > 0:
-                grid[enemy['body'][0][0]][enemy['body'][0][1]-1] = SAFTEY
+                grid[enemy['body'][0]['x']][enemy['body'][0]['y']-1] = SAFTEY
 
-            if enemy['body'][0][0] < data['board']['width']-1:
-                grid[enemy['body'][0][0]+1][enemy['body'][0][1]] = SAFTEY
+            if enemy['body'][0]['x'] < data['board']['width']-1:
+                grid[enemy['body'][0]['x']+1][enemy['body'][0]['y']] = SAFTEY
             if enemy['body'][0][0] > 0:
-                grid[enemy['body'][0][0]-1][enemy['body'][0][1]] = SAFTEY
+                grid[enemy['body'][0]['x']-1][enemy['body'][0]['y']] = SAFTEY
 
 
     snek_head = snek['body'][0]
@@ -129,7 +129,7 @@ def move():
         else:
             new_snek_body = list(reversed(tentative_path))[:snek_length]
 
-        if grid[new_snek_body[0][0]][new_snek_body[0][1]] == FOOD:
+        if grid[new_snek_body[0]['x']][new_snek_body[0]['y']] == FOOD:
             # we ate food so we grow
             new_snek_body.append(new_snek_body[-1])
 
