@@ -93,7 +93,7 @@ def move():
 
             if enemy['body'][0]['x'] < data['board']['width']-1:
                 grid[enemy['body'][0]['x']+1][enemy['body'][0]['y']] = SAFTEY
-            if enemy['body'][0][0] > 0:
+            if enemy['body'][0]['x'] > 0:
                 grid[enemy['body'][0]['x']-1][enemy['body'][0]['y']] = SAFTEY
 
 
