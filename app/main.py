@@ -79,7 +79,7 @@ def move():
     grid =  data['board']['width'], data['board']['height']
 
     #foreach snake
-    for enemy in data['snakes']:
+    for enemy in data['board']['snakes']:
         if (enemy['id'] == ID):
             continue
         if distance(snek['body'][0], enemy['body'][0]) > SNEK_BUFFER:
