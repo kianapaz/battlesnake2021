@@ -110,21 +110,27 @@ class Battlesnake(object):
             if body_part['x'] == head['x']:
                 print(f" the part:: {body_part} the head{head}")
                 possible_moves = get_moves(possible_moves, head, body_part)
+                print(possible_moves)
             elif body_part['x'] == head['x']-1:
                 print(f" the part:: {body_part} the head{head}")
                 possible_moves = get_moves(possible_moves, head, body_part)
+                print(possible_moves)
             elif body_part['x'] == head['x']+1:
                 print(f" the part:: {body_part} the head{head}")
                 possible_moves = get_moves(possible_moves, head, body_part)
+                print(possible_moves)
             elif body_part['y'] == head['y']:
                 print(f" the part:: {body_part} the head{head}")
                 possible_moves = get_moves(possible_moves, head, body_part)
+                print(possible_moves)
             elif body_part['y'] == head['y']-1:
                 print(f" the part:: {body_part} the head{head}")
                 possible_moves = get_moves(possible_moves, head, body_part)
+                print(possible_moves)
             elif body_part['y'] == head['y']+1:
                 print(f" the part:: {body_part} the head{head}")
                 possible_moves = get_moves(possible_moves, head, body_part)
+                print(possible_moves)
 
 
         print('AFTER DELETING')
