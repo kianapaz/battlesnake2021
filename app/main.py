@@ -27,8 +27,8 @@ def direction(from_cell, to_cell):
         return 'down'
 
 def distance(p, q):
-    dx = abs(p[0] - q[0])
-    dy = abs(p[1] - q[1])
+    dx = abs(p['x'] - q['x'])
+    dy = abs(p['y'] - q['y'])
     return dx + dy;
 
 def closest(items, start):
